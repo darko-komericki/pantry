@@ -61,3 +61,16 @@ Alternative: `bigint` identity (8 bytes, easier to read, but needs a separate cl
 ## Known gaps in Phase 1
 
 Deferred on purpose: email verification, password reset, login rate limiting.
+
+## 2026-10-07: `updated_at` maintained by a database trigger
+
+One shared function `set_updated_at()`, attached to each table with a `BEFORE UPDATE`
+trigger. No query can forget to set it.
+Alternative: set `updated_at = now()` in every UPDATE query (visible in the SQL, but easy to
+forget). Note: `now()` is the transaction start time, so all rows changed in one transaction
+get the same value.
+
+## 2026-10-07: Expired sessions removed by a cleanup job
+
+Expired rows stay until a periodic delete (added with the session handlers). No index on
+`expires_at` until that job exists and its query plan shows a need.
