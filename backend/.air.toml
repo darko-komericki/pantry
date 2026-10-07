@@ -1,0 +1,13 @@
+# Live reload for `make dev`. Rebuilds the server when .go files change.
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "go build -o ./tmp/server ./cmd/server"
+  entrypoint = ["./tmp/server"]
+  include_ext = ["go"]
+  exclude_dir = ["tmp"]
+  delay = 200
+
+[log]
+  main_only = true

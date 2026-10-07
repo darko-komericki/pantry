@@ -1,0 +1,11 @@
+version: "2"
+sql:
+  - engine: postgresql
+    # sqlc reads goose migrations directly and ignores the Down sections.
+    schema: db/migrations
+    queries: db/queries
+    gen:
+      go:
+        package: store
+        out: internal/store
+        sql_package: pgx/v5

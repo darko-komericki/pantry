@@ -1,0 +1,9 @@
+# Generates the server interface and models from api/openapi.yaml.
+# strict-server: each operation gets typed request/response structs, so a
+# handler can only return responses the contract declares.
+package: api
+output: internal/api/api.gen.go
+generate:
+  std-http-server: true
+  strict-server: true
+  models: true
