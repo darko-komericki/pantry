@@ -1,0 +1,17 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Go
+backend/tmp/
+backend/bin/
+
+# Frontend
+node_modules/
+frontend/dist/
