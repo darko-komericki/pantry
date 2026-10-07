@@ -23,10 +23,10 @@ make gen       # regenerates sqlc, oapi-codegen and TypeScript API types
 ## Development
 
 ```sh
-make dev       # Go API on :8080 (live reload via air) + Vite on :5173
+make dev       # Go API on :8080 (live reload via air) + Vite on :5180
 ```
 
-Open http://localhost:5173. Vite proxies `/api/*` to the Go server, so there is no CORS
+Open http://localhost:5180. Vite proxies `/api/*` to the Go server, so there is no CORS
 setup in development.
 
 ## Commands

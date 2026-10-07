@@ -4,6 +4,10 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   plugins: [react()],
   server: {
+    // 5173 is taken by ddev-router on this machine, so use a different port.
+    host: '127.0.0.1',
+    port: 5180,
+    strictPort: true,
     // The Go API runs on :8080; proxying keeps the browser on one origin,
     // so there is no CORS setup in development.
     proxy: {
