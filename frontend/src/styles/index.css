@@ -1,0 +1,56 @@
+/* Base: tokens and element defaults. Components live next to their feature. */
+
+:root {
+  --color-bg: #fafaf9;
+  --color-text: #1c1917;
+  --color-muted: #78716c;
+  --color-focus: #2563eb;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1c1917;
+    --color-text: #f5f5f4;
+    --color-muted: #a8a29e;
+    --color-focus: #60a5fa;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* App shell */
+
+.app__header {
+  padding: var(--space-4);
+}
+
+.app__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.app__main {
+  padding: var(--space-4);
+}
