@@ -9,3 +9,10 @@ sql:
         package: store
         out: internal/store
         sql_package: pgx/v5
+        overrides:
+          # Same UUID type oapi-codegen uses, so IDs pass between layers unchanged.
+          - db_type: uuid
+            go_type: github.com/google/uuid.UUID
+          # Our timestamps are NOT NULL, so plain time.Time instead of pgtype.Timestamptz.
+          - db_type: timestamptz
+            go_type: time.Time
