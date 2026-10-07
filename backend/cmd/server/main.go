@@ -14,6 +14,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
+	"github.com/darko-komericki/pantry/backend/internal/api"
 	"github.com/darko-komericki/pantry/backend/internal/config"
 )
 
@@ -52,11 +53,13 @@ func run() error {
 		return fmt.Errorf("ping db: %w", err)
 	}
 
-	mux := http.NewServeMux()
+	// pool satisfies api.Pinger, so it is passed in directly.
+	strict := api.NewStrictHandler(api.NewServer(pool, logger), nil)
+	handler := api.HandlerFromMuxWithBaseURL(strict, http.NewServeMux(), "/api")
 
 	srv := &http.Server{
 		Addr:              cfg.HTTPAddr,
-		Handler:           mux,
+		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
