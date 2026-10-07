@@ -66,7 +66,7 @@ Start flat. Don't create `service/` or extra packages until a handler actually n
 - `pgx/v5` with `pgxpool`. `sqlc` for all queries. **No ORM, no string-built SQL.**
 - `goose` for migrations, plain SQL files, always with a working `-- +goose Down`.
 - `oapi-codegen` generates the server interface from `api/openapi.yaml`; handlers implement it.
-- Errors: wrap with context, `fmt.Errorf("load list %d: %w", id, err)`. Never swallow errors.
+- Errors: wrap with context, `fmt.Errorf("load list %s: %w", id, err)`. Never swallow errors.
   Use `errors.Is` / `errors.As`. Map domain errors to HTTP status codes in one place.
 - `context.Context` is the first parameter of anything doing I/O. Respect cancellation.
 - No global mutable state. Dependencies are passed explicitly (constructor or struct fields).

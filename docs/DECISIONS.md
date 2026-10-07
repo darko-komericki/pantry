@@ -22,3 +22,42 @@ Alternative: npm. pnpm is faster and stricter about undeclared dependencies.
 
 `db-test` on port 5433 with tmpfs storage. Store tests never touch dev data and the instance
 resets on restart. Alternative: second database in the same container (less isolation).
+
+## 2026-10-07: Server-side sessions in Postgres
+
+Login creates a random token. The browser gets it in an `HttpOnly`, `SameSite=Lax` cookie
+(`Secure` in production). The `sessions` table stores only a SHA-256 hash of the token.
+CSRF protection uses Go's `http.CrossOriginProtection` (standard library).
+Why: same-origin SPA, real logout and "log out everywhere", token not readable by JavaScript.
+Alternatives: JWT (cannot revoke before expiry without rebuilding sessions), external
+provider (extra service, hides the part we want to learn).
+
+## 2026-10-07: bcrypt for password hashing
+
+`golang.org/x/crypto/bcrypt`, cost 12. Passwords limited to 72 bytes (bcrypt limit),
+enforced in the contract.
+Alternative: argon2id (stronger against GPU attacks, but we would hand-write the
+salt/parameter encoding).
+
+## 2026-10-07: Users join households through a membership table
+
+`household_members (household_id, user_id)`. The data model allows many households per user;
+the UI assumes one for now.
+Alternative: `users.household_id` (simpler, but a data migration if it ever changes).
+
+## 2026-10-07: Invite codes for joining a household
+
+The owner creates a single-use code; a new user enters it at sign-up.
+Alternatives: owner creates the account (owner knows the password), email invite (needs email
+sending).
+
+## 2026-10-07: UUIDv7 primary keys
+
+All tables use `uuid` keys with Postgres 18 `uuidv7()` as the default.
+Why: time-ordered (indexes nearly as well as bigint), and clients can create IDs offline,
+which makes retries in the Phase 2 offline queue safe.
+Alternative: `bigint` identity (8 bytes, easier to read, but needs a separate client ID later).
+
+## Known gaps in Phase 1
+
+Deferred on purpose: email verification, password reset, login rate limiting.
