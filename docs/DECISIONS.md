@@ -72,5 +72,18 @@ get the same value.
 
 ## 2026-10-07: Expired sessions removed by a cleanup job
 
-Expired rows stay until a periodic delete (added with the session handlers). No index on
-`expires_at` until that job exists and its query plan shows a need.
+Expired rows stay until a periodic delete (added with the session handlers). The same job
+deletes expired household invites. No index on `expires_at` until that job exists and its
+query plan shows a need.
+
+## 2026-10-07: Any household member can create invites
+
+No role column on `household_members` yet. Roles are added when a feature needs permissions.
+Alternative: owner-only invites (needs `role` now, before anything else uses it).
+
+## 2026-10-07: Invites are single-use, expire after 7 days, and are deleted on use
+
+Sign-up deletes the invite in the same transaction that adds the membership.
+Why: no nullable `used_by`/`used_at` columns, simpler lookup query. Join time is still in
+`household_members.created_at`.
+Alternative: keep used invites as a record of who joined with which code.
