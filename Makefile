@@ -77,7 +77,7 @@ dev-frontend:
 test: test-backend test-frontend ## Go and frontend tests
 
 test-backend:
-	cd backend && go test ./...
+	cd backend && go test -count=1 ./...
 
 test-frontend:
 	cd frontend && pnpm test

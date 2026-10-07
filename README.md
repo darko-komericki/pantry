@@ -41,7 +41,7 @@ setup in development.
 | `make gen` | sqlc + oapi-codegen + openapi-typescript |
 | `make seed` | Load realistic fake data |
 | `make dev` | Backend with reload + Vite dev server |
-| `make test` | Go and frontend tests |
+| `make test` | Go and frontend tests (store tests need `make db-up` and `make migrate` first) |
 | `make lint` | gofmt, go vet, tsc, eslint |
 
 ## Configuration
@@ -55,6 +55,13 @@ The backend reads environment variables once at startup and exits if any are inv
 | `HTTP_ADDR` | no | `:8080` | Listen address |
 | `LOG_FORMAT` | no | `json` | `json` or `text` |
 | `TEST_DATABASE_URL` | for store tests | | Points at the `db-test` container |
+
+## Testing
+
+Store tests run every query against the `db-test` container. Each test runs inside a
+transaction that is rolled back at the end, so tests never see each other's data and the
+database stays empty. Go's test cache is off (`-count=1`) because it cannot see database
+changes.
 
 ## Layout
 
